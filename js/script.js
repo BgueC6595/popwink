@@ -133,20 +133,25 @@ initBackground();
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
-const soundBuffers = [];
+let soundBuffers = [];
 
 async function loadSound(url) {
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    return await audioCtx.decodeAudioData(arrayBuffer);
+}
+
+async function initAudio() {
     try {
-        const response = await fetch(url);
-        const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-        soundBuffers.push(audioBuffer);
+        const loadedBuffers = await Promise.all(soundFiles.map(url => loadSound(url)));
+        soundBuffers = loadedBuffers;
+        console.log("All sounds loaded in correct order!");
     } catch (e) {
-        console.error("Failed to load sound:", url, e);
+        console.error("Audio loading failed:", e);
     }
 }
 
-soundFiles.forEach(url => loadSound(url));
+initAudio();
 
 function playSound(isSecret = false) {
     if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -230,5 +235,6 @@ window.addEventListener('keydown', (e) => {
     }
     if (e.code === 'Escape') bgMenu.classList.add('hidden');
 });
+
 
 window.addEventListener('keyup', resetState);
