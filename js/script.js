@@ -24,8 +24,8 @@ let hasMenuBeenOpened = false;
 
 const backgroundPool = [
     { url: 'assets/img/background1.jpg', weight: 0.6 },
-    { url: 'assets/img/background2.jpg', weight: 0.39 },
-    { url: 'assets/img/background3.jpg', weight: 0.01 }
+    { url: 'assets/img/background2.jpg', weight: 0.399 },
+    { url: 'assets/img/background3.jpg', weight: 0.001 }
 ];
 
 const counterDisplay = document.getElementById('counter');
@@ -213,41 +213,24 @@ function resetState() {
     counterDisplay.classList.remove('pop');
 }
 
-window.addEventListener('mousedown', (e) => {
+
+window.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'touch') e.preventDefault();
+    if (e.target.closest('header')) return;
+
     if (!bgMenu.classList.contains('hidden')) {
         if (!bgMenu.contains(e.target)) {
             bgMenu.classList.add('hidden');
         }
         return;
     }
+
     increment();
 });
 
-window.addEventListener('mouseup', resetState);
+window.addEventListener('pointerup', resetState);
+window.addEventListener('pointercancel', resetState);
 
-window.addEventListener('touchstart', (e) => {
-    if (!bgMenu.classList.contains('hidden')) {
-        if (!bgMenu.contains(e.target)) {
-            bgMenu.classList.add('hidden');
-        }
-        return; 
-    }
-    e.preventDefault(); 
-    increment();
-}, { passive: false });
-
-window.addEventListener('touchend', resetState);
-
-window.addEventListener('keydown', (e) => {
-    if (e.repeat) return;
-    if (e.code === "Space" || e.code === "Enter") increment();
-    if (e.code === 'KeyB') {
-		bgMenu.style.display = "";
-        bgMenu.classList.toggle('hidden');
-        if (!bgMenu.classList.contains('hidden')) applySecretBonus();
-    }
-    if (e.code === 'Escape') bgMenu.classList.add('hidden');
-});
 
 const closeMenuBtn = document.getElementById('close-menu');
 closeMenuBtn.addEventListener('click', (e) => {
