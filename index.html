@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="darkreader-lock">
+    <title>POPWINK</title>
+    <meta name="description" content="Proper skux.">
+    <meta name="theme-color" content="#87C339"> <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	
+	<link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="background-container"></div>
+
+    <header>
+        <img src="assets/img/title.svg" alt="Title" class="title-svg" draggable="false">
+        <div id="counter" draggable="false">0</div>
+    </header>
+
+    <main>
+        <div class="image-container">
+            <img src="assets/img/hoodC.png" id="main-image" alt="Interactive Character" draggable="false">
+        </div>
+    </main>
+
+
+	<div style="display: none;">
+        <img src="assets/img/background1.jpg" id="bg-preload-0">
+        <img src="assets/img/background2.jpg" id="bg-preload-1"> 
+		<img src="assets/img/background3.jpg" id="bg-preload-2">
+    </div>
+
+    <div id="bg-menu" class="hidden">
+        <h2>Select Background</h2>
+        <div class="bg-options">
+            </div>
+        <div class="upload-section">
+            <label for="custom-bg-upload" class="upload-btn">Upload Custom</label>
+            <input type="file" id="custom-bg-upload" accept="image/*">
+        </div>
+        <p class="hint">Press 'B' or Esc to close</p>
+    </div>
+	<script src="js/script.js" defer></script>
+</body>
+</html>
