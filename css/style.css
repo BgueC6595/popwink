@@ -171,3 +171,20 @@ input[type="file"] {
     font-size: 0.8rem;
     color: #666;
 }
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: #ff69b4; /* Optional: pink glow on hover */
+}
