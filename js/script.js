@@ -230,11 +230,23 @@ window.addEventListener('keydown', (e) => {
     if (e.repeat) return;
     if (e.code === "Space" || e.code === "Enter") increment();
     if (e.code === 'KeyB') {
+		bgMenu.style.display = "";
         bgMenu.classList.toggle('hidden');
         if (!bgMenu.classList.contains('hidden')) applySecretBonus();
     }
     if (e.code === 'Escape') bgMenu.classList.add('hidden');
 });
 
+const closeMenuBtn = document.getElementById('close-menu');
+closeMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    bgMenu.classList.add('hidden');
+});
+window.addEventListener('mousedown', (e) => {
+    if (!bgMenu.contains(e.target) && !bgMenu.classList.contains('hidden')) {
+        bgMenu.classList.add('hidden');
+    }
+});
 
 window.addEventListener('keyup', resetState);
+
