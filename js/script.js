@@ -23,8 +23,8 @@ let currentSecretChance = secretChanceBase;
 let hasMenuBeenOpened = false; 
 
 const backgroundPool = [
-    { url: 'assets/img/background1.jpg', weight: 0.8 },
-    { url: 'assets/img/background2.jpg', weight: 0.19 },
+    { url: 'assets/img/background1.jpg', weight: 0.6 },
+    { url: 'assets/img/background2.jpg', weight: 0.39 },
     { url: 'assets/img/background3.jpg', weight: 0.01 }
 ];
 
@@ -101,10 +101,12 @@ let tapCount = 0;
 let tapTimer;
 
 function handleSecretTrigger(e) {
-    e.stopPropagation(); 
+	e.stopPropagation(); 
+    if (e.type === 'touchstart') e.preventDefault();
     tapCount++;
 
     if (tapCount >= 5) {
+		bgMenu.style.display = "";
         bgMenu.classList.remove('hidden');
         applySecretBonus();
         tapCount = 0;
@@ -145,7 +147,6 @@ async function initAudio() {
     try {
         const loadedBuffers = await Promise.all(soundFiles.map(url => loadSound(url)));
         soundBuffers = loadedBuffers;
-        console.log("All sounds loaded in correct order!");
     } catch (e) {
         console.error("Audio loading failed:", e);
     }
@@ -186,13 +187,12 @@ counterDisplay.innerText = count;
 let isPressed = false;
 
 function increment() {
-    if (isPressed) return; 
-    isPressed = true;
+    if (isPressed || !bgMenu.classList.contains('hidden')) return; 
 
+    isPressed = true;
     count++;
     counterDisplay.innerText = count;
     localStorage.setItem('userCount', count);
-
     mainImage.src = img2;
 
     const randomRot = Math.floor(Math.random() * 20) - 10;
@@ -214,16 +214,28 @@ function resetState() {
 }
 
 window.addEventListener('mousedown', (e) => {
-    if (bgMenu.contains(e.target) && !bgMenu.classList.contains('hidden')) return;
+    if (!bgMenu.classList.contains('hidden')) {
+        if (!bgMenu.contains(e.target)) {
+            bgMenu.classList.add('hidden');
+        }
+        return;
+    }
     increment();
 });
+
 window.addEventListener('mouseup', resetState);
 
 window.addEventListener('touchstart', (e) => {
-    if (bgMenu.contains(e.target)) return;
+    if (!bgMenu.classList.contains('hidden')) {
+        if (!bgMenu.contains(e.target)) {
+            bgMenu.classList.add('hidden');
+        }
+        return; 
+    }
     e.preventDefault(); 
     increment();
 }, { passive: false });
+
 window.addEventListener('touchend', resetState);
 
 window.addEventListener('keydown', (e) => {
